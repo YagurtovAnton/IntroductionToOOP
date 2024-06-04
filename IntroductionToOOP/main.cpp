@@ -29,7 +29,7 @@ public:
 		x = y = 0;
 		cout << "DefaultConstructor: \t" << this << endl;
 	}
-	
+
 	Point(double x, double y)
 	{
 		this->x = x;
