@@ -1,4 +1,3 @@
-// объектное-орентированное програмирования на языке С++
 #include<iostream>
 using namespace std;
 
@@ -24,18 +23,18 @@ public:
 		this->y = y;
 	}
 
-	Point()
+	/*Point()
 	{
 		x = y = 0;
 		cout << "DefaultConstructor:\t" << this << endl;
-	}
-	Point(double x)
+	}*/
+	/*Point(double x)
 	{
 		this->x = x;
 		this->y = 0;
 		cout << "1ArgConstructor:\t" << this << endl;
-	}
-	Point(double x, double y)
+	}*/
+	Point(double x = 0, double y = 0)
 	{
 		this->x = x;
 		this->y = y;
@@ -45,19 +44,29 @@ public:
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
+	double distance(Point other)
+	{
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+		return distance;
+	}
+
 	void print()const
 	{
 		cout << "X = " << x << "\tY=" << y << endl;
 	}
 };
 
+
 //#define STUCT_POINT
 #define CONSTRUCTORS_CHEK
+//#define DISTANCE_CHEK
 
 void main()
 {
 	setlocale(LC_ALL, "");
-	
+
 #ifdef STUCT_POINT
 	cout << "Hello OOP" << endl;
 	int a;
@@ -79,7 +88,7 @@ void main()
 	A.print();
 
 	Point B = 5;
-	
+
 	B.print();
 
 	Point C(2, 3);

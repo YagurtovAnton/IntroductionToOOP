@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntroductionToOOP", "IntroductionToOOP\IntroductionToOOP.vcxproj", "{EF389220-354A-47A7-A969-752B782AB2A4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Point", "Point\Point.vcxproj", "{B444F9F4-64ED-4A21-A0A7-32423511879B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{EF389220-354A-47A7-A969-752B782AB2A4}.Release|x64.Build.0 = Release|x64
 		{EF389220-354A-47A7-A969-752B782AB2A4}.Release|x86.ActiveCfg = Release|Win32
 		{EF389220-354A-47A7-A969-752B782AB2A4}.Release|x86.Build.0 = Release|Win32
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Debug|x64.ActiveCfg = Debug|x64
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Debug|x64.Build.0 = Debug|x64
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Debug|x86.Build.0 = Debug|Win32
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Release|x64.ActiveCfg = Release|x64
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Release|x64.Build.0 = Release|x64
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Release|x86.ActiveCfg = Release|Win32
+		{B444F9F4-64ED-4A21-A0A7-32423511879B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
