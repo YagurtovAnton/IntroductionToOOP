@@ -1,238 +1,244 @@
 // объектное-орентированное програмирования на языке С++
 #include<iostream>
 using namespace std;
+using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
-class Point
+class Fraction;
+Fraction operator*(Fraction left, Fraction right);
+Fraction operator/(const Fraction& left, const Fraction& right);
+
+class Fraction
 {
-	double x;
-	double y;
+	int integer;		//Целая часть
+	int numerator;		//Числитель
+	int denominator;	//Знаменатель
 public:
-	double get_x()const
+	int get_integer()const
 	{
-		return x;
+		return integer;
 	}
-	double get_y()const
+	int get_numerator()const
 	{
-		return y;
+		return numerator;
 	}
-	void set_x(double x)
+	int get_denominator()const
 	{
-		this->x = x;
+		return denominator;
 	}
-	void set_y(double y)
+	void set_integer(int integer)
 	{
-		this->y = y;
+		this->integer = integer;
+	}
+	void set_numerator(int numerator)
+	{
+		this->numerator = numerator;
+	}
+	void set_denominator(int denominator)
+	{
+		if (denominator == 0)denominator = 1;
+		this->denominator = denominator;
 	}
 
-	/*Point& operator++
+	//				Constructors:
+	Fraction()
 	{
-		this->x = x;
-		this->y = 0;
-		cout << "1ArgConstructor:\t" << this << endl;
-	}
-	Point(double x, double y)*/
-	
-
-	Point()
-	{
-		x = y = 0;
+		integer = 0;
+		numerator = 0;
+		set_denominator(1);
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Point(double x)
+	Fraction(int integer)
 	{
-		this->x = x;
-		this->y = 0;
-		cout << "1ArgConstructor:\t" << this << endl;
+		this->integer = integer;
+		this->numerator = 0;
+		set_denominator(1);
+		cout << "SingleArgumentConstructor:" << this << endl;
 	}
-	Point(double x, double y)
+	Fraction(int numerator, int denominator)
 	{
-		this->x = x;
-		this->y = y;
-		cout << "Constrcutor:\t\t" << this << endl;
+		this->integer = 0;
+		this->numerator = numerator;
+		set_denominator(denominator);
+		cout << "Constructor:\t\t" << this << endl;
 	}
-	void operator=(const Point& other)
+	Fraction(int integer, int numerator, int denominator)
 	{
-		this->x = other.x;
-		this->y = other.y;
-		cout << "CopyAssignemen\t\t" << this << endl;
+		set_integer(integer);
+		set_numerator(numerator);
+		set_denominator(denominator);
+		cout << "Constructor:\t\t" << this << endl;
 	}
-	~Point()
+	~Fraction()
 	{
 		cout << "Destructor:\t\t" << this << endl;
 	}
 
-	//					Operators
-	Point& operator++()
+	//				Operators:
+	Fraction& operator*=(Fraction& other)
 	{
-		x++;
-		y++;
-		return *this;
-
+		return *this = *this * other;
 	}
-	Point operator++(int)
+	Fraction& operator/=(Fraction& other)
 	{
-		Point old = *this;
-		x++;
-		y++;
-		return old;
+		return *this = *this / other;
+	}
+
+	//				Methods:
+	Fraction& to_improper()
+	{
+		numerator += integer * denominator;
+		integer = 0;
+		return *this;
+	}
+	Fraction& to_proper()
+	{
+		integer += numerator / denominator;
+		numerator %= denominator;
+		return *this;
+	}
+	Fraction inverted()const
+	{
+		Fraction inverted = *this;
+		inverted.to_improper();
+		swap(inverted.numerator, inverted.denominator);
+		return inverted;
+	}
+	Fraction& reduce()
+	{
+		int more, less, rest;
+		if (numerator > denominator)more = numerator, less = denominator;
+		else less = numerator, more = denominator;
+		do
+		{
+			rest = more % less;
+			more = less;
+			less = rest;
+		} while (rest);
+		int GCD = more;	//GCD - Greatest Common Divisor
+		numerator /= GCD;
+		denominator /= GCD;
+		return *this;
 	}
 	void print()const
 	{
-		cout << "X = " << x << "\tY=" << y << endl;
-	}
-	double distance(const Point& other)const
-	{
-		//other.x *= 10;
-		double x_distance = this->x - other.x;
-		double y_distance = this->y - other.y;
-		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-		//sqrt() - Square Root (Квадратный корень)
-		//this->x *= 10;
-		return distance;
+		if (integer)cout << integer;
+		if (numerator)
+		{
+			if (integer)cout << "(";
+			cout << numerator << "/" << denominator;
+			if (integer)cout << ")";
+		}
+		else if (integer == 0)cout << 0;
+		cout << endl;
 	}
 };
 
-double distance(const Point& A, const Point& B)
+Fraction operator*(Fraction left, Fraction right)
 {
-	//A.set_x(A.get_x() * 10);
-	double x_distance = A.get_x() - B.get_x();
-	double y_distance = A.get_y() - B.get_y();
-	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
-	return distance;
+	left.to_improper();
+	right.to_improper();
+
+	/*Fraction result;
+	result.set_numerator(left.get_numerator()*right.get_numerator());
+	result.set_denominator(left.get_denominator() * right.get_denominator());
+	return result;*/
+
+	/*Fraction result
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	);
+	result.to_proper();
+	return result;*/
+
+	return Fraction
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	).to_proper().reduce();
+}
+Fraction operator/(const Fraction& left, const Fraction& right)
+{
+	return left * right.inverted();
+}
+
+//						Comparison operators:
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator() * right.get_denominator() == right.get_numerator() * left.get_denominator();
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
+}
+bool operator>(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return
+		left.get_numerator() * right.get_denominator() >
+		right.get_numerator() * left.get_denominator();
+}
+bool operator<(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return
+		left.get_numerator() * right.get_denominator() <
+		right.get_numerator() * left.get_denominator();
+}
+bool operator>=(const Fraction& left, const Fraction& right)
+{
+	return !(left < right);
+}
+bool operator<=(const Fraction& left, const Fraction& right)
+{
+	return !(left > right);
 }
 
 
-Point operator+(const Point& left, const Point& right)
-{
-	Point result;
-	result.set_x(left.get_x() + right.get_x());
-	result.set_y(left.get_y() + right.get_y());
-	return result;
-}
-
-bool operator==(const Point& left, const Point& right)
-{
-	/*if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
-		return true;
-	else
-		return false;*/
-	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
-}
-	std::ostream& operator<<(std::ostream & os, const Point & obj)
-	{
-		return os << "X=" << obj.get_x() << "\tY=" << obj.get_y();
-	}
-//#define STUCT_POINT
-//#define CONSTRUCTORS_CHEK
-//#define arifmetical_operators_chek
-//#define COMPARISON_OPERATORS_CHEK
-//#define DISTANCE_CHECK
-//#define ASSIGNMENT_CHECK
+//#define CONSTRUCTORS_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
 
 void main()
 {
 	setlocale(LC_ALL, "");
-	
-#ifdef STUCT_POINT
-	cout << "Hello OOP" << endl;
-	int a;
-	Point A;
 
-	A.x = 2;
-	A.y = 3;
-	cout << A.x << "\t" << A.y << endl;
-
-	Point* pA = &A;
-	cout << pA->x << "\t" << pA->y << endl;
-#endif // STUCT_POINT
-
-#ifdef CONSTRUCTORS_CHEK
-	Point A;
-	//A.set_x(2);
-	//A.set_y(3);
-	//cout << A.get_x() << "\t" << A.get_y() << endl; 
+#ifdef CONSTRUCTORS_CHECK
+	Fraction A;			//Default constructor
 	A.print();
 
-	Point B = 5;
-	
+	Fraction B = 5;		//Single-argument constructor
 	B.print();
 
-	Point C(2, 3);
+	Fraction C(1, 2);
 	C.print();
 
-	Point D = C;
+	Fraction D(2, 3, 4);
 	D.print();
+#endif // CONSTRUCTORS_CHECK
 
-	Point E;
-	E = D;
-	E.print();
-	/*for (int i = 0; i < 10; i++)
-	{
-		cout << i << "\t";
-	}
-	cout << i << endl;
-	cout << endl;*/
-#endif // CONSTRUCTORS_CHEK
-#ifdef DISTANCE_CHECK
-	Point A(2, 3);
-	Point B(7, 8);
-
+#ifdef ARITHMETICAL_OPERATORS_CHECK
+	Fraction A(2, 3, 4);
 	A.print();
+	Fraction B(3, 4, 5);
 	B.print();
+	//A.to_improper().print();
+	//A.to_proper().print();
 
-	cout << delimiter << endl;
-	cout << "Расстояние от точки 'A' до точки 'B':" << A.distance(B) << endl;
-	cout << delimiter << endl;
-	cout << "Расстояние от точки 'B' до точки 'A':" << B.distance(A) << endl;
-	cout << delimiter << endl;
-	cout << "Расстояние между точками 'A' и 'B':  " << distance(A, B) << endl;
-	cout << delimiter << endl;
-	cout << "Расстояние между точками 'B' и 'A':  " << distance(B, A) << endl;
-	cout << delimiter << endl;
-#endif // DISTANCE_CHECK
-#ifdef arifmetical_operators_chek
-	Point A(2, 3);
+	//Fraction C = A / B;
+	//C.print();
+
+	A *= B;
 	A.print();
-
-	Point B(7, 8);
-	B.print();
-
-	Point C = A + B;
-	C.print();
-
-	Point D = C++;
-	D.print();
-
-#endif // arifmetical_operators_chek
-#ifdef ASSIGNMENT_CHECK
-	int a, b, c;
-	a = b = c = 0;
-	cout << a << "\t" << b << "\t" << c << endl;
-
-
-	Point A, B, C;
-
-	cout << delimiter << endl;
-	A = B = C = Point(2, 3);	//Point(2, 3) - явно вызываем конструктори создем временный безымяный объект,этот объект и передается как параметр в первый CopyAssignment.
-	cout << delimiter << endl;
-
+	A /= B;
 	A.print();
-	B.print();
-	C.print();
+#endif // ARITHMETICAL_OPERATORS_CHECK
 
-	cout << delimiter << endl;
-#endif // ASSIGNMENT_CHECK
-#ifdef COMPARISON_OPERATORS_CHEK
-	//cout << (2 == 3)<<endl;
-//cout << (Point(2, 3) == Point(2, 3)) << endl;
-	Point A(2, 3);
-	Point B(2, 3);
-	cout << (A == B) << endl;
-	//cout << (Point(2, 3) == Point(2, 3)) << endl;  
-#endif // COMPARISON_OPERATORS_CHEK
-
-	Point A(2, 3);
-
-	cout << A << endl;
-
+	cout << (Fraction(1, 3) <= Fraction(5, 11)) << endl;
 }
