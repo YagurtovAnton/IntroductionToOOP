@@ -278,10 +278,13 @@ void main()
 #endif // ARITHMETICAL_OPERATORS_CHECK
 
 	//cout << (Fraction(1, 3) <= Fraction(5, 11)) << endl;
+#ifdef iostrim_chek
 	Fraction A(3, 5);
 	cout << A << endl;
 
 	Fraction B;
 	cout << "¬ведите простую дробь: ";	cin >> B;
 	cout << B << endl;
+#endif // iostrim_chek
+
 }
