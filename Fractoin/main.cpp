@@ -266,9 +266,8 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define IOSTREAM_CHECK
-//#define TYPE_CONVERSIONS_BASICS
-//#define CONVERSIONS_FROM_OTHER_TO_CLASS
-#define CONVERSIONS_HOME_WORK
+#define CONVERSIONS_FROM_OTHER_TO_CLASS
+
 
 void main()
 {
