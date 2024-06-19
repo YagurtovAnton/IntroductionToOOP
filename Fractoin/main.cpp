@@ -243,7 +243,6 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 
 	int numbers[3] = {};
 	int n = 0;
-	//https://legacy.cplusplus.com/reference/cstring/strtok/
 	const char delimiters[] = " /()";
 	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 		//https://legacy.cplusplus.com/reference/cstdlib/atoi/
