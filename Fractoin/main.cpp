@@ -58,6 +58,18 @@ public:
 		this->numerator = 0;
 		set_denominator(1);
 		cout << "SingleArgumentConstructor:" << this << endl;
+		
+	}
+	Fraction(double decimal)
+	{
+		// decimal - десятичный
+		//decimal += 1e-10;
+		integer = decimal;// сохраняем целую часть
+		decimal -= integer;// убираем целую часть из десятичной дроби
+		denominator = 1e+9; // записываем максимально-возможный знаменатель
+		numerator = decimal * denominator + .5;
+		cout << "DoubleConstructor:\t\t" << this << endl;
+		reduce();
 	}
 	Fraction(int numerator, int denominator)
 	{
@@ -265,7 +277,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define IOSTREAM_CHECK
-#define CONVERSIONS_FROM_OTHER_TO_CLASS
+//#define CONVERSIONS_FROM_OTHER_TO_CLASS
 
 
 void main()
@@ -330,6 +342,7 @@ void main()
 	cout << delimiter << endl;
 #endif // CONVERSIONS_FROM_OTHER_TO_CLASS
 
-
+	Fraction A = 3.333;
+	cout << A << endl;
 
 }
