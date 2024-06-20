@@ -115,6 +115,18 @@ public:
 		return *this = *this / other;
 	}
 
+	//				type-cast operators
+	explicit operator int()
+	{
+		return to_proper().integer;
+		//to_proper();
+		//return integer;
+	}
+	explicit operator  double()
+	{
+		return integer + numerator / (double)denominator;
+	}
+
 	//				Methods:
 	Fraction& to_improper()
 	{
@@ -342,7 +354,13 @@ void main()
 	cout << delimiter << endl;
 #endif // CONVERSIONS_FROM_OTHER_TO_CLASS
 
-	Fraction A = 3.333;
+	Fraction A(2,3,4);
+	A.to_improper();
 	cout << A << endl;
+	int a = (int)A;
+	cout << a << endl;
+
+	double da = (double)A;
+	cout << da << endl;
 
 }
